@@ -28,6 +28,18 @@ namespace WikiRace.API
         {
 
             services.AddControllers();
+      services.AddSignalR();
+
+      services.AddCors(options =>
+      {
+        options.AddPolicy("CorsPolicy", policy =>
+        {
+          policy.AllowAnyHeader()
+          .AllowAnyMethod()
+          .AllowAnyOrigin()
+          .AllowCredentials();
+        });
+      });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,8 +53,7 @@ namespace WikiRace.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseAuthorization();
+      app.UseCors("CorsPolicy");
 
             app.UseEndpoints(endpoints =>
             {
